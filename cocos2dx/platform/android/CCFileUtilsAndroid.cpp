@@ -24,7 +24,7 @@ THE SOFTWARE.
 #include "CCFileUtilsAndroid.h"
 #include "support/zip_support/ZipUtils.h"
 #include "platform/CCCommon.h"
-#include "jni/Java_org_cocos2dx_lib_Cocos2dxHelper.h"
+#include "blinkjni/Cocos2dxJniHelper.h"
 
 using namespace std;
 
@@ -56,7 +56,7 @@ CCFileUtilsAndroid::~CCFileUtilsAndroid()
 
 bool CCFileUtilsAndroid::init()
 {
-    m_strDefaultResRootPath = "assets/";
+    m_strDefaultResRootPath = "assets/www/";
     return CCFileUtils::init();
 }
 
