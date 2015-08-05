@@ -174,6 +174,10 @@ public:
      * Get scale factor of the vertical direction.
      */
     float getScaleY() const;
+
+    // Crosswalk binding needed, just make compile work.
+    void release() {}
+    void retain() {}
 private:
     void getSetOfTouchesEndOrCancel(CCSet& set, int num, int ids[], float xs[], float ys[]);
 

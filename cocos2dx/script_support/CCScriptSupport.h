@@ -44,6 +44,9 @@ class CCMenuItem;
 class CCNotificationCenter;
 class CCCallFunc;
 class CCAcceleration;
+namespace extension {
+    class CCTableViewCell;
+}
 
 enum ccScriptType {
     kScriptTypeNone = 0,
@@ -183,6 +186,9 @@ public:
     /** Remove script object. */
     virtual void removeScriptObjectByCCObject(CCObject* pObj) = 0;
     
+    virtual void holdHeapObject(unsigned int id, CCObject* cocosObj, void* p) {};
+    virtual void releaseHeapObject(unsigned int id, void* crosswalkImpl) {};
+
     /** Remove script function handler, only CCLuaEngine class need to implement this function. */
     virtual void removeScriptHandler(int nHandler) {};
     
@@ -227,7 +233,16 @@ public:
     virtual int executeCallFuncActionEvent(CCCallFunc* pAction, CCObject* pTarget = NULL) = 0;
     /** execute a schedule function */
     virtual int executeSchedule(int nHandler, float dt, CCNode* pNode = NULL) = 0;
-    
+    virtual int executeSchedulerUpdate(void* crosswalkImpl, float dt) = 0;
+    virtual int executeSchedulerPause(void* crosswalkImpl, void* node) = 0;
+    virtual int executeSchedulerResume(void* crosswalkImpl, void* node) = 0;
+    virtual int executeSchedulerUnschedule(void* crosswalkImpl, void* node) = 0;
+
+    /** execute custom touch event */
+    virtual void executeCustomTouchEvent(int eventType, CCTouch *pTouch, bool& result, CCNode* obj) = 0;
+    virtual void executeCustomTouchEvent(int eventType, CCTouch *pTouch, CCNode* obj) = 0;
+    virtual void executeCustomTouchesEvent(int eventType, CCSet *pTouches, CCNode* obj) = 0;
+
     /** functions for executing touch event */
     virtual int executeLayerTouchesEvent(CCLayer* pLayer, int eventType, CCSet *pTouches) = 0;
     virtual int executeLayerTouchEvent(CCLayer* pLayer, int eventType, CCTouch *pTouch) = 0;
@@ -249,6 +264,16 @@ public:
      */
     virtual bool handleAssert(const char *msg) = 0;
     
+    virtual void executeScrollDidScroll(CCObject* obj) = 0;
+    virtual void executeScrollDidZoom(CCObject* obj) = 0;
+
+    virtual void executeTableCellTouched(CCObject* obj, CCObject* cell) = 0;
+    virtual void executeTableCellHighlight(CCObject* obj, CCObject* cell) = 0;
+    virtual void executeTableCellUnhighlight(CCObject* obj, CCObject* cell) = 0;
+    virtual void executeTableCellWillRecycle(CCObject* obj, CCObject* cell) = 0;
+    virtual CCSize executeTableCellSizeForIndex(CCObject *table, unsigned int idx) = 0;
+    virtual extension::CCTableViewCell* executeTableCellAtIndex(CCObject *table, unsigned int idx) = 0;
+    virtual unsigned int executeNumberOfCellsInTableView(CCObject *table) = 0;
     /**
      *
      */

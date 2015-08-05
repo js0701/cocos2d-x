@@ -288,6 +288,7 @@ THE SOFTWARE.
 #include "touch_dispatcher/CCTouchDelegateProtocol.h"
 #include "touch_dispatcher/CCTouchDispatcher.h"
 #include "touch_dispatcher/CCTouchHandler.h"
+#include "touch_dispatcher/JSTouchDelegate.h"
 
 // root
 #include "CCCamera.h"

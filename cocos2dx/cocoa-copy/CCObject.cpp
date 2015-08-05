@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include "CCAutoreleasePool.h"
 #include "ccMacros.h"
 #include "script_support/CCScriptSupport.h"
+#include "typeinfo.h"
 
 NS_CC_BEGIN
 
@@ -39,9 +40,9 @@ CCObject* CCCopying::copyWithZone(CCZone *pZone)
 
 CCObject::CCObject(void)
 : m_nLuaID(0)
+, m_pCrosswalkImpl(0)
 , m_uReference(1) // when the object is created, the reference count of it is 1
 , m_uAutoReleaseCount(0)
-, m_pCrosswalkImpl(0)
 {
     static unsigned int uObjectCount = 0;
 
@@ -86,6 +87,12 @@ void CCObject::release(void)
     {
         delete this;
     }
+
+    // Crosswalk binding will hold one ref, check whether it was held by crosswalk instance
+    // If yes, ref - 1 for binding --> GC collect binding instance --> release this cocos2d-x instance
+    else if (m_uReference == 1 && m_uAutoReleaseCount == 0) {
+        setCrosswalkImpl(NULL);
+    }
 }
 
 void CCObject::retain(void)
@@ -121,19 +128,25 @@ void CCObject::acceptVisitor(CCDataVisitor &visitor)
     visitor.visitObject(this);
 }
 
-void setCrosswalkImpl(void* p) {
-    if (p == NULL && m_pCrosswalkImpl != NULL) {
-        CCScriptEngineManager::sharedManager()->getScriptEngine()->releaseHeapObject(m_uID, this);
+void CCObject::setCrosswalkImpl(void* p) {
+    CCScriptEngineProtocol* pEngine = CCScriptEngineManager::sharedManager()->getScriptEngine();
+    if (pEngine != NULL) {
+        if (p == NULL && m_pCrosswalkImpl != NULL) {
+            CCScriptEngineManager::sharedManager()->getScriptEngine()->releaseHeapObject(m_uID, m_pCrosswalkImpl);
+        }
+        if (p != NULL) {
+            CCScriptEngineManager::sharedManager()->getScriptEngine()->holdHeapObject(m_uID, this, p);
+        }
     }
     m_pCrosswalkImpl = p;
-    if (p != NULL) {
-        CCScriptEngineManager::sharedManager()->getScriptEngine()->holdHeapObject(m_uID, this, p);
-    }
 }
 
-void* getCrosswalkImpl() {
+void* CCObject::getCrosswalkImpl() {
     return m_pCrosswalkImpl;
 }
 
+const char* CCObject::getTypeName(CCObject* obj) {
+    return typeid(*obj).name();
+}
 
 NS_CC_END

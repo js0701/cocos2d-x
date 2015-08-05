@@ -623,6 +623,10 @@ void CCScheduler::unscheduleAllForTarget(CCObject *pTarget)
 
     // update selector
     unscheduleUpdateForTarget(pTarget);
+
+    if (m_pCrosswalkImpl) {
+        CCScriptEngineManager::sharedManager()->getScriptEngine()->executeSchedulerUnschedule(m_pCrosswalkImpl, pTarget->getCrosswalkImpl());
+    }
 }
 
 unsigned int CCScheduler::scheduleScriptFunc(unsigned int nHandler, float fInterval, bool bPaused)
@@ -670,6 +674,9 @@ void CCScheduler::resumeTarget(CCObject *pTarget)
         CCAssert(pElementUpdate->entry != NULL, "");
         pElementUpdate->entry->paused = false;
     }
+    if (m_pCrosswalkImpl) {
+        CCScriptEngineManager::sharedManager()->getScriptEngine()->executeSchedulerResume(m_pCrosswalkImpl, pTarget->getCrosswalkImpl());
+    }
 }
 
 void CCScheduler::pauseTarget(CCObject *pTarget)
@@ -691,6 +698,9 @@ void CCScheduler::pauseTarget(CCObject *pTarget)
     {
         CCAssert(pElementUpdate->entry != NULL, "");
         pElementUpdate->entry->paused = true;
+    }
+    if (m_pCrosswalkImpl) {
+        CCScriptEngineManager::sharedManager()->getScriptEngine()->executeSchedulerPause(m_pCrosswalkImpl, pTarget->getCrosswalkImpl());
     }
 }
 
@@ -901,6 +911,10 @@ void CCScheduler::update(float dt)
         {
             this->removeUpdateFromHash(pEntry);
         }
+    }
+
+    if (m_pCrosswalkImpl) {
+        CCScriptEngineManager::sharedManager()->getScriptEngine()->executeSchedulerUpdate(m_pCrosswalkImpl, dt);
     }
 
     m_bUpdateHashLocked = false;

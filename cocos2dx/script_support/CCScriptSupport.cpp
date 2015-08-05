@@ -131,7 +131,8 @@ CCScriptEngineManager::~CCScriptEngineManager(void)
 
 void CCScriptEngineManager::setScriptEngine(CCScriptEngineProtocol *pScriptEngine)
 {
-    removeScriptEngine();
+    if( m_pScriptEngine!= pScriptEngine)
+        removeScriptEngine();
     m_pScriptEngine = pScriptEngine;
 }
 

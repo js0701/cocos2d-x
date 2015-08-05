@@ -122,6 +122,7 @@ public:
     @since v0.8.0
     */
     virtual void registerWithTouchDispatcher(void);
+    virtual void registerWithTargetedTouchDispatcher(int priority, bool swallowsTouches);
     
     /** Register script touch events handler */
     virtual void registerScriptTouchHandler(int nHandler, bool bIsMultiTouches = false, int nPriority = INT_MIN, bool bSwallowsTouches = false);

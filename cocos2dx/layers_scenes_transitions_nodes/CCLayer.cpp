@@ -126,6 +126,12 @@ void CCLayer::registerWithTouchDispatcher()
     }
 }
 
+void CCLayer::registerWithTargetedTouchDispatcher(int priority, bool swallowsTouches)
+{
+    CCTouchDispatcher* pDispatcher = CCDirector::sharedDirector()->getTouchDispatcher();
+    pDispatcher->addTargetedDelegate(this, priority, swallowsTouches);
+}
+
 void CCLayer::registerScriptTouchHandler(int nHandler, bool bIsMultiTouches, int nPriority, bool bSwallowsTouches)
 {
     unregisterScriptTouchHandler();

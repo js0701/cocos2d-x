@@ -347,7 +347,6 @@ public:
      */
     CCObject* randomObject();
     
-
     CCString* getCCStringPtrIfExists(CCObject* obj);
     CCDictionary* getCCDictionaryPtrIfExists(CCObject* obj);
     CCArray* getCCArrayPtrIfExists(CCObject* obj);
