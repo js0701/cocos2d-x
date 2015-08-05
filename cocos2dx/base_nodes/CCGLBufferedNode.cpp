@@ -35,6 +35,26 @@ CCGLBufferedNode::CCGLBufferedNode(void)
     }
 }
 
+CCGLBufferedNode:: ~CCGLBufferedNode()
+{
+   for(int i = 0; i < BUFFER_SLOTS; i++)
+   {
+       if(m_bufferObject[i] != 0)
+       {
+          glDeleteBuffers(1, &(m_bufferObject[i]));
+          m_bufferObject[i] = 0;
+       }
+       if(m_indexBufferObject[i] != 0)
+       {
+          glDeleteBuffers(1, &(m_indexBufferObject[i]));
+          m_indexBufferObject[i] = 0;
+       }
+
+   }
+
+}
+
+
 void CCGLBufferedNode::setGLBufferData(void *buf, GLuint bufSize, int slot)
 {
     // WebGL doesn't support client-side arrays, so generate a buffer and load the data first.

@@ -396,7 +396,7 @@ public:
      * @lua NA
      */
     virtual long getClassTypeInfo() {
-		static const long id = cocos2d::getHashCodeByString(typeid(cocos2d::CCCallFunc).name());
+		static const long id = cocos2d::getHashCodeByString("CCCallFunc");
 		return id;
     }
 
@@ -438,7 +438,7 @@ class CC_DLL CCCallFuncND : public CCCallFuncN
 {
 public:
     virtual long getClassTypeInfo() {
-        static const long id = cocos2d::getHashCodeByString(typeid(cocos2d::CCCallFunc).name());
+        static const long id = cocos2d::getHashCodeByString("CCCallFunc");
 		return id;
     }
 
@@ -475,7 +475,7 @@ public:
     virtual ~CCCallFuncO();
 
     virtual long getClassTypeInfo() {
-	    static const long id = cocos2d::getHashCodeByString(typeid(cocos2d::CCCallFunc).name());
+	    static const long id = cocos2d::getHashCodeByString("CCCallFunc");
 		return id;
     }
 

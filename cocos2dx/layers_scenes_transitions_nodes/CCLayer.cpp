@@ -229,11 +229,11 @@ void CCLayer::setAccelerometerEnabled(bool enabled)
             CCDirector* pDirector = CCDirector::sharedDirector();
             if (enabled)
             {
-                pDirector->getAccelerometer()->setDelegate(this);
+                //pDirector->getAccelerometer()->setDelegate(this);
             }
             else
             {
-                pDirector->getAccelerometer()->setDelegate(NULL);
+                //pDirector->getAccelerometer()->setDelegate(NULL);
             }
         }
     }
@@ -246,7 +246,7 @@ void CCLayer::setAccelerometerInterval(double interval) {
         if (m_bRunning)
         {
             CCDirector* pDirector = CCDirector::sharedDirector();
-            pDirector->getAccelerometer()->setAccelerometerInterval(interval);
+            //pDirector->getAccelerometer()->setAccelerometerInterval(interval);
         }
     }
 }
@@ -345,7 +345,7 @@ void CCLayer::onEnter()
     // add this layer to concern the Accelerometer Sensor
     if (m_bAccelerometerEnabled)
     {
-        pDirector->getAccelerometer()->setDelegate(this);
+        //pDirector->getAccelerometer()->setDelegate(this);
     }
 
     // add this layer to concern the keypad msg
@@ -368,7 +368,7 @@ void CCLayer::onExit()
     // remove this layer from the delegates who concern Accelerometer Sensor
     if (m_bAccelerometerEnabled)
     {
-        pDirector->getAccelerometer()->setDelegate(NULL);
+        //pDirector->getAccelerometer()->setDelegate(NULL);
     }
 
     // remove this layer from the delegates who concern the keypad msg
@@ -385,7 +385,7 @@ void CCLayer::onEnterTransitionDidFinish()
     if (m_bAccelerometerEnabled)
     {
         CCDirector* pDirector = CCDirector::sharedDirector();
-        pDirector->getAccelerometer()->setDelegate(this);
+        //pDirector->getAccelerometer()->setDelegate(this);
     }
     
     CCNode::onEnterTransitionDidFinish();

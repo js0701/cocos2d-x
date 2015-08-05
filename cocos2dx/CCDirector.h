@@ -37,6 +37,8 @@ THE SOFTWARE.
 #include "label_nodes/CCLabelAtlas.h"
 #include "ccTypeInfo.h"
 
+#include "config.h"
+#include "CCGraphicsContext3D.h"
 
 NS_CC_BEGIN
 
@@ -112,7 +114,7 @@ public:
      * @lua NA
      */
     virtual long getClassTypeInfo() {
-		static const long id = cocos2d::getHashCodeByString(typeid(cocos2d::CCDirector).name());
+		static const long id = cocos2d::getHashCodeByString("CCDirector");
 		return id;
     }
 
@@ -361,6 +363,9 @@ public:
      *  @js getInstance
      */
     static CCDirector* sharedDirector(void);
+    static void setWebGLContext(CCGraphicsContext3D* context);
+    static CCGraphicsContext3D* getWebGLContext();
+	static void destroyDirector(void);
 
 protected:
 

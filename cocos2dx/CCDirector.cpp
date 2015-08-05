@@ -86,6 +86,18 @@ NS_CC_BEGIN
 // singleton stuff
 static CCDisplayLinkDirector *s_SharedDirector = NULL;
 
+CCGraphicsContext3D* CCDirector::getWebGLContext(void) {
+    return CCGraphicsContext3D::get3DContext();
+}
+
+void CCDirector::setWebGLContext(CCGraphicsContext3D* context) {
+    //CCGraphicsContext3D::set3DContext(context);
+    CCDirector::sharedDirector()->setOpenGLView(CCEGLView::sharedOpenGLView());
+    int width = CCDirector::getWebGLContext()->canvasWidth();
+    int height = CCDirector::getWebGLContext()->canvasHeight();
+    CCEGLView::sharedOpenGLView()->setFrameSize(width, height);
+    //CCEGLView::sharedOpenGLView()->setDesignResolutionSize(width, height, kResolutionNoBorder);
+}
 #define kDefaultFPS        60  // 60 frames per second
 extern const char* cocos2dVersion(void);
 
@@ -98,6 +110,13 @@ CCDirector* CCDirector::sharedDirector(void)
     }
 
     return s_SharedDirector;
+}
+
+void CCDirector::destroyDirector(void)
+{
+   if(s_SharedDirector)
+   s_SharedDirector->purgeDirector();
+   s_SharedDirector = NULL;
 }
 
 CCDirector::CCDirector(void)
@@ -156,7 +175,7 @@ bool CCDirector::init(void)
     m_pKeypadDispatcher = new CCKeypadDispatcher();
 
     // Accelerometer
-    m_pAccelerometer = new CCAccelerometer();
+    //m_pAccelerometer = new CCAccelerometer();
 
     // create autorelease pool
     CCPoolManager::sharedPoolManager()->push();
@@ -179,7 +198,7 @@ CCDirector::~CCDirector(void)
     CC_SAFE_RELEASE(m_pActionManager);
     CC_SAFE_RELEASE(m_pTouchDispatcher);
     CC_SAFE_RELEASE(m_pKeypadDispatcher);
-    CC_SAFE_DELETE(m_pAccelerometer);
+    //CC_SAFE_DELETE(m_pAccelerometer);
 
     // pop the autorelease pool
     CCPoolManager::sharedPoolManager()->pop();
@@ -734,16 +753,18 @@ void CCDirector::purgeDirector()
     CCConfiguration::purgeConfiguration();
 
     // cocos2d-x specific data structures
-    CCUserDefault::purgeSharedUserDefault();
+    //CCUserDefault::purgeSharedUserDefault();
     CCNotificationCenter::purgeNotificationCenter();
 
     ccGLInvalidateStateCache();
-    
-    CHECK_GL_ERROR_DEBUG();
-    
-    // OpenGL view
-    m_pobOpenGLView->end();
-    m_pobOpenGLView = NULL;
+
+    if(m_pobOpenGLView != NULL)
+    {
+       CHECK_GL_ERROR_DEBUG();
+       //OpenGL view
+       m_pobOpenGLView->end();
+       m_pobOpenGLView = NULL;
+    }
 
     // delete CCDirector
     release();
@@ -1034,7 +1055,7 @@ void CCDirector::setAccelerometer(CCAccelerometer* pAccelerometer)
 {
     if (m_pAccelerometer != pAccelerometer)
     {
-        CC_SAFE_DELETE(m_pAccelerometer);
+        //CC_SAFE_DELETE(m_pAccelerometer);
         m_pAccelerometer = pAccelerometer;
     }
 }
@@ -1066,6 +1087,9 @@ void CCDisplayLinkDirector::startAnimation(void)
 
 void CCDisplayLinkDirector::mainLoop(void)
 {
+    if (!CCGraphicsContext3D::get3DContext())
+        return;
+
     if (m_bPurgeDirecotorInNextLoop)
     {
         m_bPurgeDirecotorInNextLoop = false;

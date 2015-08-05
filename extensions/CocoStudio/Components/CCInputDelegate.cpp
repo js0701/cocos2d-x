@@ -167,6 +167,8 @@ bool CCInputDelegate::isAccelerometerEnabled()
 
 void CCInputDelegate::setAccelerometerEnabled(bool enabled)
 {
+    //TODO: Need support accelerometer on Crosswalk
+    /*
     if (enabled != m_bAccelerometerEnabled)
     {
         m_bAccelerometerEnabled = enabled;
@@ -181,6 +183,7 @@ void CCInputDelegate::setAccelerometerEnabled(bool enabled)
             pDirector->getAccelerometer()->setDelegate(NULL);
         }
     }
+    */
 }
 
 bool CCInputDelegate::isKeypadEnabled()

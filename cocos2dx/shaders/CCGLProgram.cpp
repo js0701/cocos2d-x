@@ -211,11 +211,11 @@ bool CCGLProgram::compileShader(GLuint * shader, GLenum type, const GLchar* sour
 
     if (! status)
     {
-        GLsizei length;
-		glGetShaderiv(*shader, GL_SHADER_SOURCE_LENGTH, &length);
+        GLsizei length=1024;
+		//glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &length);
 		GLchar* src = (GLchar *)malloc(sizeof(GLchar) * length);
 		
-		glGetShaderSource(*shader, length, NULL, src);
+		glGetShaderInfoLog(*shader, length, &length, src);
 		CCLOG("cocos2d: ERROR: Failed to compile shader:\n%s", src);
         
         if (type == GL_VERTEX_SHADER)
@@ -342,17 +342,20 @@ const char* CCGLProgram::logForOpenGLObject(GLuint object, GLInfoFunction infoFu
 
 const char* CCGLProgram::vertexShaderLog()
 {
-    return this->logForOpenGLObject(m_uVertShader, (GLInfoFunction)&glGetShaderiv, (GLLogFunction)&glGetShaderInfoLog);
+//    return this->logForOpenGLObject(m_uVertShader, (GLInfoFunction)&glGetShaderiv, (GLLogFunction)&glGetShaderInfoLog);
+return NULL;
 }
 
 const char* CCGLProgram::fragmentShaderLog()
 {
-    return this->logForOpenGLObject(m_uFragShader, (GLInfoFunction)&glGetShaderiv, (GLLogFunction)&glGetShaderInfoLog);
+//    return this->logForOpenGLObject(m_uFragShader, (GLInfoFunction)&glGetShaderiv, (GLLogFunction)&glGetShaderInfoLog);
+return NULL;
 }
 
 const char* CCGLProgram::programLog()
 {
-    return this->logForOpenGLObject(m_uProgram, (GLInfoFunction)&glGetProgramiv, (GLLogFunction)&glGetProgramInfoLog);
+//    return this->logForOpenGLObject(m_uProgram, (GLInfoFunction)&glGetProgramiv, (GLLogFunction)&glGetProgramInfoLog);
+return NULL;
 }
 
 // Uniform cache
@@ -602,7 +605,9 @@ void CCGLProgram::reset()
     
 
     // it is already deallocated by android
-    //ccGLDeleteProgram(m_uProgram);
+    if(m_uProgram)
+    ccGLDeleteProgram(m_uProgram);
+	
     m_uProgram = 0;
 
     

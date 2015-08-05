@@ -43,9 +43,15 @@ THE SOFTWARE.
 #endif
 
 // normal process
+#if defined(COCOS2D_GL_MACROS)
+#include "../blink/CCGLPlatformMacros.h"
+#else
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
+#endif
+
 // gl2.h doesn't define GLchar on Android
+/*
 typedef char GLchar;
 // android defines GL_BGRA_EXT but not GL_BRGA
 #ifndef GL_BGRA
@@ -60,6 +66,7 @@ extern PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT;
 #define glGenVertexArraysOES glGenVertexArraysOESEXT
 #define glBindVertexArrayOES glBindVertexArrayOESEXT
 #define glDeleteVertexArraysOES glDeleteVertexArraysOESEXT
+*/
 
 
 #endif // __CCGL_H__

@@ -33,21 +33,26 @@ NS_CC_BEGIN
 class CC_DLL CCEGLView : public CCEGLViewProtocol
 {
 public:
-    CCEGLView();
-    virtual ~CCEGLView();
+    CCEGLView() {}
+    virtual ~CCEGLView() {}
 
-    bool    isOpenGLReady();
+    bool    isOpenGLReady() { return (m_obScreenSize.width != 0 && m_obScreenSize.height != 0); }
 
     // keep compatible
-    void    end();
-    void    swapBuffers();
-    void    setIMEKeyboardState(bool bOpen);
+    void    end() {}
+    void    swapBuffers() {}
+    void    setIMEKeyboardState(bool bOpen) {}
     
     // static function
     /**
     @brief    get the shared main open gl window
     */
-    static CCEGLView* sharedOpenGLView();
+    static CCEGLView* sharedOpenGLView()
+    {
+        static CCEGLView instance;
+        return &instance;
+    }
+
 };
 
 NS_CC_END

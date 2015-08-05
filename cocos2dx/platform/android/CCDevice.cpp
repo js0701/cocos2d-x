@@ -8,7 +8,8 @@ int CCDevice::getDPI()
     static int dpi = -1;
     if (dpi == -1)
     {
-        dpi = (int)getDPIJNI();
+        // TODO: Get dpi by JNI.
+        dpi = 400;
     }
     return dpi;
 }

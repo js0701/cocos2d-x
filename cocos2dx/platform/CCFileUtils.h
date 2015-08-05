@@ -54,7 +54,7 @@ public:
      *  @lua NA
      */
     virtual long getClassTypeInfo() {
-		static const long id = cocos2d::getHashCodeByString(typeid(cocos2d::CCFileUtils).name());
+		static const long id = cocos2d::getHashCodeByString("CCFileUtils");
 		return id;
     }
     

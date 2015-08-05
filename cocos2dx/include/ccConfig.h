@@ -266,4 +266,8 @@ To enable set it to a value different than 0. Disabled by default.
 #define CC_LUA_ENGINE_DEBUG 0
 #endif
 
+#define EMSCRIPTEN
+#define CCEXTERNGL
+#define COCOS2D_DEBUG 0
+
 #endif // __CCCONFIG_H__
