@@ -26,7 +26,7 @@
 #include "platform/CCPlatformConfig.h"
 #include "platform/CCFileUtils.h"
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID_NO)
 #include "platform/android/jni/JniHelper.h"
 #endif
 
@@ -46,7 +46,7 @@ CCTextureETC::~CCTextureETC()
 bool CCTextureETC::initWithFile(const char *file)
 {
     // Only Android supports ETC file format
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID_NO)
     bool ret = loadTexture(CCFileUtils::sharedFileUtils()->fullPathForFilename(file).c_str());
     return ret;
 #else
@@ -70,7 +70,7 @@ unsigned int CCTextureETC::getHeight() const
 }
 
 // Call back function for java
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID_NO)
 #define  LOG_TAG    "CCTextureETC.cpp"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
@@ -94,7 +94,7 @@ extern "C"
 
 bool CCTextureETC::loadTexture(const char* file)
 {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID_NO)
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t, "org/cocos2dx/lib/Cocos2dxETCLoader", "loadTexture", "(Ljava/lang/String;)Z"))
     {

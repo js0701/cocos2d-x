@@ -267,6 +267,12 @@ public:
     
     bool hasPremultipliedAlpha();
     bool hasMipmaps();
+
+    bool initWithHTMLImageElement(void* element, int width, int height);
+    bool initWithHTMLCanvasElement(void* element, int width, int height);
+    bool initWithHTMLVideoElement(void* element, int width, int height);
+
+    bool initWithFileURL(const char* fileURL);
 private:
     bool initPremultipliedATextureWithImage(CCImage * image, unsigned int pixelsWide, unsigned int pixelsHigh);
     

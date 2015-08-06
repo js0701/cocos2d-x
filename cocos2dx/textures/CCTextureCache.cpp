@@ -425,12 +425,12 @@ CCTexture2D * CCTextureCache::addImage(const char * path)
         {
             if (std::string::npos != lowerCase.find(".pvr"))
             {
-                texture = this->addPVRImage(fullpath.c_str());
+                //texture = this->addPVRImage(fullpath.c_str());
             }
             else if (std::string::npos != lowerCase.find(".pkm"))
             {
                 // ETC1 file format, only supportted on Android
-                texture = this->addETCImage(fullpath.c_str());
+                //texture = this->addETCImage(fullpath.c_str());
             }
             else
             {
@@ -483,7 +483,7 @@ CCTexture2D * CCTextureCache::addImage(const char * path)
     //pthread_mutex_unlock(m_pDictLock);
     return texture;
 }
-
+/*
 CCTexture2D * CCTextureCache::addPVRImage(const char* path)
 {
     CCAssert(path != NULL, "TextureCache: fileimage MUST not be nil");
@@ -545,6 +545,7 @@ CCTexture2D* CCTextureCache::addETCImage(const char* path)
     
     return texture;
 }
+*/
 
 CCTexture2D* CCTextureCache::addUIImage(CCImage *image, const char *key)
 {

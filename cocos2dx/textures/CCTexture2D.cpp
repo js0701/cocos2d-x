@@ -618,6 +618,109 @@ bool CCTexture2D::initWithString(const char *text, ccFontDefinition *textDefinit
     #endif
 }
 
+bool CCTexture2D::initWithHTMLImageElement(void* element, int width, int height)
+{
+    m_uName = glCreateTexture();
+    ccGLBindTexture2D(getName());
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    glTexImage2DHTMLImageElement(GL_TEXTURE_2D, 0, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, element);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTexture));
+
+    m_uPixelsWide = m_tContentSize.width = width;
+    m_uPixelsHigh = m_tContentSize.height = height;
+
+    m_ePixelFormat = kCCTexture2DPixelFormat_RGBA8888;
+    m_fMaxS = m_fMaxT = 1.0f;
+
+    m_bHasPremultipliedAlpha = false;
+    m_bHasMipmaps = false;
+}
+
+bool CCTexture2D::initWithHTMLCanvasElement(void* element, int width, int height)
+{
+    m_uName = glCreateTexture();
+    ccGLBindTexture2D(getName());
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    glTexImage2DHTMLCanvasElement(GL_TEXTURE_2D, 0, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, element);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTexture));
+
+    m_uPixelsWide = m_tContentSize.width = width;
+    m_uPixelsHigh = m_tContentSize.height = height;
+
+    m_ePixelFormat = kCCTexture2DPixelFormat_RGBA8888;
+    m_fMaxS = m_fMaxT = 1.0f;
+
+    m_bHasPremultipliedAlpha = false;
+    m_bHasMipmaps = false;
+
+    return true;
+}
+bool CCTexture2D::initWithHTMLVideoElement(void* element, int width, int height)
+{
+    m_uName = glCreateTexture();
+    ccGLBindTexture2D(getName());
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    glTexImage2DHTMLVideoElement(GL_TEXTURE_2D, 0, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, element);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTexture));
+
+    m_uPixelsWide = m_tContentSize.width = width;
+    m_uPixelsHigh = m_tContentSize.height = height;
+
+    m_ePixelFormat = kCCTexture2DPixelFormat_RGBA8888;
+    m_fMaxS = m_fMaxT = 1.0f;
+
+    m_bHasPremultipliedAlpha = false;
+    m_bHasMipmaps = false;
+
+    return true;
+}
+
+bool CCTexture2D::initWithFileURL(const char* fileURL)
+{
+    int width,height;
+    m_uName = glCreateTexture();
+    ccGLBindTexture2D(getName());
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, fileURL, &width, &height);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTexture));
+
+    m_uPixelsWide = m_tContentSize.width = width;
+    m_uPixelsHigh = m_tContentSize.height = height;
+
+    m_ePixelFormat = kCCTexture2DPixelFormat_RGBA8888;
+    m_fMaxS = m_fMaxT = 1.0f;
+
+    m_bHasPremultipliedAlpha = false;
+    m_bHasMipmaps = false;
+
+    return true;
+}
+
+
 
 // implementation CCTexture2D (Drawing)
 
@@ -695,14 +798,14 @@ bool CCTexture2D::initWithPVRFile(const char* file)
 {
     bool bRet = false;
     // nothing to do with CCObject::init
-    
+/*
     CCTexturePVR *pvr = new CCTexturePVR;
     bRet = pvr->initWithContentsOfFile(file);
-        
+
     if (bRet)
     {
         pvr->setRetainName(true); // don't dealloc texture on release
-        
+
         m_uName = pvr->getName();
         m_fMaxS = 1.0f;
         m_fMaxT = 1.0f;
@@ -711,7 +814,7 @@ bool CCTexture2D::initWithPVRFile(const char* file)
         m_tContentSize = CCSizeMake((float)m_uPixelsWide, (float)m_uPixelsHigh);
         m_bHasPremultipliedAlpha = PVRHaveAlphaPremultiplied_;
         m_ePixelFormat = pvr->getFormat();
-        m_bHasMipmaps = pvr->getNumberOfMipmaps() > 1;       
+        m_bHasMipmaps = pvr->getNumberOfMipmaps() > 1;
 
         pvr->release();
     }
@@ -719,7 +822,7 @@ bool CCTexture2D::initWithPVRFile(const char* file)
     {
         CCLOG("cocos2d: Couldn't load PVR image %s", file);
     }
-
+*/
     return bRet;
 }
 
@@ -727,10 +830,10 @@ bool CCTexture2D::initWithETCFile(const char* file)
 {
     bool bRet = false;
     // nothing to do with CCObject::init
-    
+/*
     CCTextureETC *etc = new CCTextureETC;
     bRet = etc->initWithFile(file);
-    
+
     if (bRet)
     {
         m_uName = etc->getName();
@@ -740,14 +843,14 @@ bool CCTexture2D::initWithETCFile(const char* file)
         m_uPixelsHigh = etc->getHeight();
         m_tContentSize = CCSizeMake((float)m_uPixelsWide, (float)m_uPixelsHigh);
         m_bHasPremultipliedAlpha = true;
-        
+
         etc->release();
     }
     else
     {
         CCLOG("cocos2d: Couldn't load ETC image %s", file);
     }
-    
+*/
     return bRet;
 }
 
