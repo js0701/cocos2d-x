@@ -620,7 +620,7 @@ bool CCTexture2D::initWithString(const char *text, ccFontDefinition *textDefinit
 
 bool CCTexture2D::initWithHTMLImageElement(void* element, int width, int height)
 {
-    m_uName = glCreateTexture();
+    if(!m_uName) m_uName = glCreateTexture();    
     ccGLBindTexture2D(getName());
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     glTexImage2DHTMLImageElement(GL_TEXTURE_2D, 0, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, element);
@@ -644,7 +644,7 @@ bool CCTexture2D::initWithHTMLImageElement(void* element, int width, int height)
 
 bool CCTexture2D::initWithHTMLCanvasElement(void* element, int width, int height)
 {
-    m_uName = glCreateTexture();
+    if(!m_uName) m_uName = glCreateTexture();
     ccGLBindTexture2D(getName());
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     glTexImage2DHTMLCanvasElement(GL_TEXTURE_2D, 0, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, element);
@@ -669,7 +669,7 @@ bool CCTexture2D::initWithHTMLCanvasElement(void* element, int width, int height
 }
 bool CCTexture2D::initWithHTMLVideoElement(void* element, int width, int height)
 {
-    m_uName = glCreateTexture();
+    if(!m_uName) m_uName = glCreateTexture();
     ccGLBindTexture2D(getName());
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     glTexImage2DHTMLVideoElement(GL_TEXTURE_2D, 0, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, element);
@@ -696,7 +696,7 @@ bool CCTexture2D::initWithHTMLVideoElement(void* element, int width, int height)
 bool CCTexture2D::initWithFileURL(const char* fileURL)
 {
     int width,height;
-    m_uName = glCreateTexture();
+    if(!m_uName) m_uName = glCreateTexture();
     ccGLBindTexture2D(getName());
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, fileURL, &width, &height);
